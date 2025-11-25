@@ -2,8 +2,9 @@
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { ArrowRight, Terminal, Github, Linkedin, Mail, Zap, Cloud, Layout, Database } from "lucide-react";
+import Link from "next/link";
 
-export const HomePage = ({ navigate }) => (
+export const HomePage = () => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -22,17 +23,21 @@ export const HomePage = ({ navigate }) => (
           Soy <strong className="text-slate-900">Jair Merlo</strong>, Full Stack Developer con 5+ años especializándome en construir aplicaciones web escalables. Experto en React, Nest.js y despliegues robustos en AWS.
         </p>
         <div className="flex flex-wrap gap-4">
-          <Button onClick={() => navigate('showcase')} variant="primary" icon={ArrowRight}>
-            Ver Demos Técnicos
-          </Button>
-          <Button onClick={() => navigate('about')} variant="secondary" icon={Terminal}>
-            Ver Experiencia
-          </Button>
+          <Link href="/showcase">
+            <Button variant="primary" icon={ArrowRight}>
+              Qué puedo hacer por ti?
+            </Button>
+          </Link>
+          <Link href="/about">
+            <Button variant="secondary" icon={Terminal}>
+              Ver Experiencia
+            </Button>
+          </Link>
         </div>
         <div className="flex gap-4 pt-4 text-slate-400">
-          <a href="#" className="hover:text-slate-900 transition-colors"><Github size={24} /></a>
-          <a href="#" className="hover:text-blue-700 transition-colors"><Linkedin size={24} /></a>
-          <a href="#" className="hover:text-red-500 transition-colors"><Mail size={24} /></a>
+          <a href="https://github.com/Legatrun" target="_blank" className="hover:text-slate-900 transition-colors"><Github size={24} /></a>
+          <a href="https://www.linkedin.com/in/jairmerloluque/" target="_blank" className="hover:text-blue-700 transition-colors"><Linkedin size={24} /></a>
+          <a href="mailto:joaquimmerlo1@gmail.com" target="_blank" className="hover:text-red-500 transition-colors"><Mail size={24} /></a>
         </div>
       </div>
 
@@ -43,7 +48,7 @@ export const HomePage = ({ navigate }) => (
             <div className="p-4 bg-white rounded-xl shadow-sm border border-slate-100">
               <Zap className="text-yellow-500 mb-2" />
               <h3 className="font-bold text-slate-800">High Performance</h3>
-              <p className="text-sm text-slate-500">Optimización Core Web Vitals</p>
+              <p className="text-sm text-slate-500">SEO optimization</p>
             </div>
             <div className="p-4 bg-white rounded-xl shadow-sm border border-slate-100">
               <Cloud className="text-blue-500 mb-2" />
@@ -57,8 +62,8 @@ export const HomePage = ({ navigate }) => (
             </div>
             <div className="p-4 bg-white rounded-xl shadow-sm border border-slate-100">
               <Database className="text-green-500 mb-2" />
-              <h3 className="font-bold text-slate-800">Backend Logic</h3>
-              <p className="text-sm text-slate-500">Nest.js & Microservicios</p>
+              <h3 className="font-bold text-slate-800">Databases</h3>
+              <p className="text-sm text-slate-500">Aurora, DynamoDB, RDS</p>
             </div>
           </div>
         </div>
@@ -69,7 +74,7 @@ export const HomePage = ({ navigate }) => (
       <div className="container mx-auto px-4 text-center">
         <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">Tecnologías Principales</p>
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-          {['Next.js', 'React', 'TypeScript', 'Node.js', 'AWS', 'Tailwind', 'Nest.js', 'PostgreSQL'].map(tech => (
+          {['Next.js', 'React', 'TypeScript', 'Javascript', 'Tailwind', 'Node.js', 'Nest.js', 'AWS', 'MySQL'].map(tech => (
             <span key={tech} className="text-xl font-bold text-slate-800">{tech}</span>
           ))}
         </div>

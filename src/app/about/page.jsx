@@ -8,23 +8,23 @@ export const AboutPage = () => {
     {
       company: "DeltaX",
       role: "Semi Senior Frontend Engineer",
-      period: "Mayo 2024 - Actualidad",
+      period: "Mayo 2024 - Julio 2025",
       desc: "Liderando la optimización de herramientas logísticas. Mejoré el performance en 22 puntos Lighthouse y gestioné 3 proyectos simultáneos.",
-      stack: ["React", "Next.js", "AWS", "Material UI"]
+      stack: ["React", "CI/CD", "AWS", "Material UI"]
     },
     {
       company: "Trem Group",
       role: "Semi Senior Frontend Engineer",
       period: "Marzo 2022 - Abril 2024",
-      desc: "Desarrollo SaaS inmobiliario B2B. Logré cargas 80% más rápidas mediante code-splitting y arquitectura SOLID.",
-      stack: ["React", "Redux", "Docker", "Stripe"]
+      desc: "Desarrollo SaaS inmobiliario B2B. Logré cargas 80% más rápidas mediante buenas prácticas y arquitectura SOLID.",
+      stack: ["React", "Redux", "Docker", "Stripe", "Next.js"]
     },
     {
       company: "Alpha Systems",
       role: "Junior Full Stack Developer",
       period: "Agosto 2020 - Enero 2022",
       desc: "Servicios financieros para ATMs. Reduje problemas de datos duplicados en un 50% rediseñando el back-office.",
-      stack: ["Vue.js", ".NET", "MySQL", "TypeScript"]
+      stack: ["Vue", "Angular", "MySQL", "TypeScript"]
     }
   ];
 

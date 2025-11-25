@@ -1,9 +1,10 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, CheckCircle2, Cloud } from 'lucide-react';
+import { Terminal, CheckCircle2, Cloud, Layout } from 'lucide-react';
 import PipelineDemo from '@/components/showcase/PipelineDemo';
 import AWSDemo from '@/components/showcase/AWSDemo';
+import { FrontendDemo } from '@/components/showcase/FrontendDemo';
 
 const ShowcasePage = () => {
   return (
@@ -13,12 +14,39 @@ const ShowcasePage = () => {
       className="container mx-auto px-4 py-10 space-y-16"
     >
       <div className="text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-slate-900 mb-4">Showcase Técnico</h1>
-        <p className="text-slate-600">
-          Debido a acuerdos de confidencialidad (NDA) con mis clientes anteriores (DeltaX, Trem Group),
-          no puedo mostrar código fuente directo. Sin embargo, he creado estos demostraciones interactivas
-          para ilustrar mis habilidades en arquitectura, despliegue y optimización.
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">¿Qué puedo hacer por ti?</h1>
+        <p className="text-slate-600 text-lg">
+          Más allá de escribir código, construyo soluciones completas. Desde interfaces modernas y rápidas hasta la infraestructura compleja que las soporta.
         </p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8 items-center">
+        <div className="order-2 lg:order-1">
+          <FrontendDemo />
+        </div>
+        <div className="order-1 lg:order-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold mb-4">
+            <Layout size={12} /> DESARROLLO WEB & DISEÑO UI
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Diseño Moderno y Componentes</h2>
+          <p className="text-slate-600 mb-6">
+            Creo sistemas de diseño escalables y componentes reutilizables que aseguran una experiencia de usuario consistente y premium.
+          </p>
+          <ul className="space-y-3 mb-6">
+            <li className="flex items-center text-slate-700 text-sm">
+              <CheckCircle2 className="w-4 h-4 text-blue-500 mr-3" />
+              Interfaces con Tailwind CSS.
+            </li>
+            <li className="flex items-center text-slate-700 text-sm">
+              <CheckCircle2 className="w-4 h-4 text-blue-500 mr-3" />
+              Micro-interacciones y animaciones con Framer Motion.
+            </li>
+            <li className="flex items-center text-slate-700 text-sm">
+              <CheckCircle2 className="w-4 h-4 text-blue-500 mr-3" />
+              Optimización SEO.
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 items-center">

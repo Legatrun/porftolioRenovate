@@ -15,7 +15,7 @@ const PipelineDemo = () => {
       </div>
       <div className="mt-8 space-y-6">
         {['Build', 'Test', 'Deploy'].map((step, i) => (
-          <motion.div 
+          <motion.div
             key={step}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -36,7 +36,7 @@ const PipelineDemo = () => {
                 <span className="text-xs text-slate-400">{i === 0 ? '12s' : i === 1 ? '45s' : '5s'}</span>
               </div>
               <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                <motion.div 
+                <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: '100%' }}
                   transition={{ delay: i * 0.5, duration: 0.8, ease: "easeInOut" }}
@@ -46,7 +46,7 @@ const PipelineDemo = () => {
               <p className="text-xs mt-1 text-slate-500">
                 {i === 0 && "Compiling Next.js assets..."}
                 {i === 1 && "Running Jest & Cypress tests..."}
-                {i === 2 && "Uploading to AWS S3 & Invalidating CloudFront..."}
+                {i === 2 && "Uploading to AWS S3 & Invalidating TTL on CloudFront..."}
               </p>
             </div>
           </motion.div>

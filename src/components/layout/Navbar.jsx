@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
+import { Download } from 'lucide-react';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -17,9 +18,14 @@ const Navbar = () => {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/showcase', label: 'Showcase' },
-    { href: '/about', label: 'Perfil & CV' },
+    { href: '/showcase', label: 'My Work' },
+    { href: '/about', label: 'Resume' },
   ];
+
+  const handleDownloadCV = () => {
+    const pdfUrl = "https://docs.google.com/document/d/1nSvOKaZT4bJvBNaLd_WJ4TCimXRMweyEhyVypRdt4-I/export?format=pdf";
+    window.open(pdfUrl, '_blank');
+  };
 
   return (
     <nav className={cn(
@@ -50,9 +56,10 @@ const Navbar = () => {
         <Button
           className="hidden md:inline-flex text-sm px-4 py-2"
           variant="primary"
-          onClick={() => window.location.href = 'mailto:joaquimmerlo1@gmail.com'}
+          onClick={handleDownloadCV}
+          icon={Download}
         >
-          Contactar
+          Descargar CV
         </Button>
       </div>
     </nav>

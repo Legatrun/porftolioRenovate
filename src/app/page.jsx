@@ -14,16 +14,14 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100">
-
-      <main className="pt-24 pb-20">
+    <div className="bg-white font-sans text-slate-900 selection:bg-blue-100">
+      <main className="pt-24">
         <AnimatePresence mode="wait">
           {activeTab === 'home' && <HomePage key="home" navigate={navigate} />}
           {activeTab === 'showcase' && <ShowcasePage key="showcase" />}
           {activeTab === 'about' && <AboutPage key="about" />}
         </AnimatePresence>
       </main>
-
     </div>
   );
 };

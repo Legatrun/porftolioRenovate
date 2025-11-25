@@ -5,11 +5,6 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'Jair Merlo | Full Stack Developer',
-  description: 'Portafolio de Jair Merlo Luque, desarrollador especializado en React, Next.js y AWS.',
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
