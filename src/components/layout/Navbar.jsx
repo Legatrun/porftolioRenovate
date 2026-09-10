@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
-import { Download } from 'lucide-react';
+import { Download, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -61,7 +62,43 @@ const Navbar = () => {
         >
           Descargar CV
         </Button>
+
+        <button
+          className="md:hidden p-2 text-slate-700"
+          onClick={() => setIsMenuOpen((v) => !v)}
+          aria-label="Abrir menú"
+        >
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden container mx-auto px-4 pt-4 pb-2 flex flex-col gap-1 border-t border-slate-100 mt-4 bg-white/95 backdrop-blur-md">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsMenuOpen(false)}
+              className={cn(
+                "text-sm font-medium py-2.5 transition-colors capitalize",
+                pathname === link.href ? "text-blue-600" : "text-slate-600"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <div className="pt-3">
+            <Button
+              variant="primary"
+              icon={Download}
+              onClick={handleDownloadCV}
+              className="w-full text-sm px-4 py-2"
+            >
+              Descargar CV
+            </Button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

@@ -13,14 +13,15 @@ export const HomePage = () => (
   >
     <section className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
       <div className="space-y-6">
-        <div className="inline-block px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-100">
-          Disponible para nuevas oportunidades
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-100">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+          Actualmente en Yape · Abierto a nuevas oportunidades
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight">
           Arquitectura Limpia & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Performance</span>
         </h1>
         <p className="text-lg text-slate-600 leading-relaxed">
-          Soy <strong className="text-slate-900">Jair Merlo</strong>, Full Stack Developer con 5+ años especializándome en construir aplicaciones web escalables. Experto en React, Nest.js y despliegues robustos en AWS.
+          Soy <strong className="text-slate-900">Jair Merlo</strong>, Full Stack Developer con más de 6 años de experiencia construyendo aplicaciones web escalables en Fintech, Real Estate y Logística. Experto en React, Node.js, Angular y despliegues robustos en AWS.
         </p>
         <div className="flex flex-wrap gap-4">
           <Link href="/showcase">
@@ -74,7 +75,7 @@ export const HomePage = () => (
       <div className="container mx-auto px-4 text-center">
         <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">Tecnologías Principales</p>
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-          {['Next.js', 'React', 'TypeScript', 'Javascript', 'Tailwind', 'Node.js', 'Nest.js', 'AWS', 'MySQL'].map(tech => (
+          {['Next.js', 'React', 'Angular', 'TypeScript', 'Tailwind', 'Node.js', 'AWS', 'Azure DevOps', 'MySQL'].map(tech => (
             <span key={tech} className="text-xl font-bold text-slate-800">{tech}</span>
           ))}
         </div>

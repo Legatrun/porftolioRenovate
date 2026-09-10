@@ -7,10 +7,10 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: "Jair Merlo - Portafolio",
-  description: "Desarrollador web especializado en React, Next.js y UI moderna.",
+  description: "Full Stack Developer con 6+ años de experiencia en React, Next.js, Angular y AWS. Actualmente en Yape.",
   openGraph: {
     title: "Jair Merlo - Portafolio",
-    description: "Desarrollador web especializado en React, Next.js y UI moderna.",
+    description: "Full Stack Developer con 6+ años de experiencia en React, Next.js, Angular y AWS. Actualmente en Yape.",
     url: "https://jairmerlo.netlify.app",
     siteName: "Jair Merlo Portfolio",
     images: [
