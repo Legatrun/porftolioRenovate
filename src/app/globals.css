@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Short viewports (e.g. 1366×768 laptops): tighten spacing so each screen still fits one snap. */
+@custom-variant short (@media (max-height: 820px));
+
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
@@ -7,40 +10,76 @@
 
   --color-ink: #050507;
   --color-ink-2: #0b0b10;
-  --color-line: rgb(255 255 255 / 0.08);
+  --color-line: var(--line);
   --color-fg: #f4f4f6;
-  --color-muted: #9a9aa6;
+  --color-muted: var(--muted);
 
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
+  --color-accent-ink: var(--accent-ink);
+  --color-on-accent: var(--on-accent);
 }
 
-/* Registered properties let the scroll-driven theme fade instead of snapping. */
-@property --accent { syntax: "<color>"; inherits: true; initial-value: #7c5cff; }
+/* Registered properties let the scroll-driven theme interpolate instead of snapping. */
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #6d4aff; }
 @property --accent-2 { syntax: "<color>"; inherits: true; initial-value: #22d3ee; }
+@property --accent-ink { syntax: "<color>"; inherits: true; initial-value: #a594ff; }
+@property --on-accent { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
 @property --bg { syntax: "<color>"; inherits: true; initial-value: #050507; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #9a9aa6; }
+@property --line { syntax: "<color>"; inherits: true; initial-value: rgb(255 255 255 / 0.08); }
 
+/*
+  --accent      buttons, fills, borders, large numerals (brand color)
+  --accent-ink  small accent text (tuned for ≥ 4.5:1 on --bg)
+  --on-accent   text placed on --accent (≥ 4.5:1)
+*/
 :root {
-  --accent: #7c5cff;
+  --accent: #6d4aff;
   --accent-2: #22d3ee;
+  --accent-ink: #a594ff;
+  --on-accent: #ffffff;
   --bg: #050507;
+  --muted: #9a9aa6;
+  --line: rgb(255 255 255 / 0.08);
   color-scheme: dark;
-  transition: --accent 0.9s ease, --accent-2 0.9s ease, --bg 0.9s ease;
+  transition: --accent 0.6s ease, --accent-2 0.6s ease, --accent-ink 0.6s ease, --on-accent 0.6s ease,
+    --bg 0.6s ease, --muted 0.6s ease, --line 0.6s ease;
 }
 
-/* Company-inspired palettes, applied by <ScrollTheme /> as sections enter view. */
-:root[data-theme="yape"]   { --accent: #a43bff; --accent-2: #ff2d9b; --bg: #0c0514; }
-:root[data-theme="deltax"] { --accent: #00e5ff; --accent-2: #ff7a1a; --bg: #020608; }
-:root[data-theme="trem"]   { --accent: #d4b27a; --accent-2: #f5f1e8; --bg: #070707; }
-:root[data-theme="alpha"]  { --accent: #3b82f6; --accent-2: #94a3b8; --bg: #050912; }
-:root[data-theme="stack"]  { --accent: #4ade80; --accent-2: #22d3ee; --bg: #040806; }
-:root[data-theme="cloud"]  { --accent: #ff9900; --accent-2: #38bdf8; --bg: #07070a; }
+/* Company palettes, applied by <ScrollTheme /> as each section snaps into view. */
+:root[data-theme="yape"] {
+  --bg: #790699; --accent: #10cbb4; --accent-2: #ffffff; --accent-ink: #3ee8d2;
+  --on-accent: #2a0335; --muted: rgb(255 255 255 / 0.78); --line: rgb(255 255 255 / 0.2);
+}
+:root[data-theme="deltax"] {
+  --bg: #090d15; --accent: #eb9705; --accent-2: #ffffff; --accent-ink: #f0a623;
+  --on-accent: #090d15; --muted: #a3acbb; --line: rgb(255 255 255 / 0.1);
+}
+:root[data-theme="trem"] {
+  --bg: #1b1e23; --accent: #3870fb; --accent-2: #ffffff; --accent-ink: #84a7ff;
+  --on-accent: #050a1a; --muted: #a9afba; --line: rgb(255 255 255 / 0.11);
+}
+:root[data-theme="alpha"] {
+  --bg: #0f172a; --accent: #95cb4d; --accent-2: #e2e8f0; --accent-ink: #95cb4d;
+  --on-accent: #0f172a; --muted: #94a3b8; --line: rgb(148 163 184 / 0.2);
+}
+:root[data-theme="stack"] { --bg: #040806; --accent: #4ade80; --accent-2: #22d3ee; --accent-ink: #4ade80; --on-accent: #04140a; }
+:root[data-theme="cloud"] { --bg: #07070a; --accent: #ff9900; --accent-2: #38bdf8; --accent-ink: #ffad33; --on-accent: #120a00; }
+
+/* Full-page snapping: mandatory where a screen fits, proximity on small/short viewports
+   so taller-than-viewport content on phones stays reachable. */
+html { scroll-snap-type: y proximity; }
+@media (min-width: 768px) and (min-height: 640px) {
+  html { scroll-snap-type: y mandatory; }
+}
 
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--color-fg);
+  transition: background-color 0.6s ease, color 0.6s ease;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -49,6 +88,14 @@ body {
 ::selection { background: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; }
 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+/* Theme-aware primary button */
+.btn-accent {
+  background-color: var(--accent);
+  color: var(--on-accent);
+  transition: background-color 0.6s ease, color 0.6s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+.btn-accent:hover { box-shadow: 0 10px 40px -10px var(--accent); }
 
 /* Utility helpers */
 .text-outline {
@@ -90,6 +137,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  :root { transition: none; }
+  :root, body { transition: none; }
+  html { scroll-snap-type: none; }
   .animate-marquee, .caret { animation: none; }
 }

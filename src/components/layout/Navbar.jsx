@@ -10,7 +10,7 @@ const links = [
   { href: "#experience", label: "Experience" },
   { href: "#stack", label: "Stack" },
   { href: "#cloud", label: "Cloud" },
-  { href: "#endorsements", label: "Endorsements" },
+  { href: "#tech-impact", label: "Tech Impact" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -54,7 +54,7 @@ export default function Navbar() {
             J
           </span>
           <span>
-            Merlo<span className="text-accent">.dev</span>
+            Merlo<span className="text-accent-ink">.dev</span>
           </span>
         </a>
 
@@ -82,7 +82,7 @@ export default function Navbar() {
             href={profile.cv}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.04] px-4 py-2 text-sm font-medium transition hover:border-accent hover:text-accent"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.04] px-4 py-2 text-sm font-medium transition hover:border-accent hover:text-accent-ink"
           >
             Résumé <ArrowUpRight size={15} />
           </a>
@@ -113,7 +113,7 @@ export default function Navbar() {
               </li>
             ))}
             <li className="py-5">
-              <a href={profile.cv} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-accent">
+              <a href={profile.cv} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-accent-ink">
                 Download résumé <ArrowUpRight size={16} />
               </a>
             </li>

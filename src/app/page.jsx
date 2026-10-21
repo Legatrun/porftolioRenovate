@@ -3,7 +3,7 @@ import Impact from "@/components/sections/Impact";
 import Experience from "@/components/sections/experience/Experience";
 import Terminal from "@/components/sections/Terminal";
 import Cloud from "@/components/sections/cloud/Cloud";
-import Testimonials from "@/components/sections/Testimonials";
+import ImpactStack from "@/components/sections/ImpactStack";
 import Contact from "@/components/sections/Contact";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
       <Experience />
       <Terminal />
       <Cloud />
-      <Testimonials />
+      <ImpactStack />
       <Contact />
     </>
   );

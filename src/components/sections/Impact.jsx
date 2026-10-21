@@ -1,8 +1,8 @@
 "use client";
 import { metrics, profile } from "@/lib/data";
 import Counter from "@/components/ui/Counter";
-import ScrubText from "@/components/ui/ScrubText";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealWords } from "@/components/ui/Reveal";
+import { SCREEN } from "@/lib/utils";
 
 function MetricCard({ m, i }) {
   const onMove = (e) => {
@@ -14,7 +14,7 @@ function MetricCard({ m, i }) {
     <Reveal delay={(i % 3) * 0.08}>
       <article
         onPointerMove={onMove}
-        className="group relative h-full overflow-hidden rounded-2xl border border-line bg-white/[0.02] p-7 md:p-8 transition-colors hover:border-white/20"
+        className="group relative h-full overflow-hidden rounded-2xl border border-line bg-white/[0.02] p-5 md:p-6 transition-colors hover:border-white/20"
       >
         <div
           aria-hidden
@@ -29,9 +29,9 @@ function MetricCard({ m, i }) {
           value={m.value}
           prefix={m.prefix}
           suffix={m.suffix}
-          className="relative mt-8 block font-display text-6xl md:text-7xl font-bold tracking-tighter tabular-nums"
+          className="relative mt-4 block whitespace-nowrap font-display text-4xl md:text-5xl font-bold tracking-tighter tabular-nums"
         />
-        <p className="relative mt-3 text-muted">{m.label}</p>
+        <p className="relative mt-2 text-sm text-muted">{m.label}</p>
       </article>
     </Reveal>
   );
@@ -39,19 +39,23 @@ function MetricCard({ m, i }) {
 
 export default function Impact() {
   return (
-    <section id="impact" data-theme-section="default" className="relative py-28 md:py-40">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <div className="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted">
-          <span className="text-accent">01</span>
-          <span className="h-px w-10 bg-accent/60" />
-          Impact in numbers
+    <section id="impact" data-theme-section="default" className={SCREEN}>
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 md:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div>
+          <Reveal className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted">
+            <span className="text-accent-ink">01</span>
+            <span className="h-px w-10 bg-accent/60" />
+            Impact in numbers
+          </Reveal>
+          <h2 className="mt-4 font-display text-3xl md:text-5xl font-bold leading-[1.05] tracking-tight">
+            <RevealWords text="Performance you can measure." />
+          </h2>
+          <Reveal delay={0.15} className="mt-6 text-base md:text-lg leading-relaxed text-muted">
+            <p>{profile.summary}</p>
+            <p className="mt-4 text-white/90">{profile.belief}</p>
+          </Reveal>
         </div>
-        <ScrubText
-          text={`${profile.summary} I believe ${profile.belief.charAt(0).toLowerCase()}${profile.belief.slice(1)}`}
-          className="max-w-5xl font-display text-3xl md:text-5xl font-medium leading-[1.15] tracking-tight"
-        />
-
-        <div className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3">
           {metrics.map((m, i) => (
             <MetricCard key={m.label} m={m} i={i} />
           ))}

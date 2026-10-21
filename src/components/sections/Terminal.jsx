@@ -4,6 +4,7 @@ import { useInView } from "framer-motion";
 import { experience, profile, skills } from "@/lib/data";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { SCREEN } from "@/lib/utils";
 
 const CATS = Object.keys(skills);
 const PROMPT = "visitor@merlo.dev:~$";
@@ -47,7 +48,7 @@ function Line({ l }) {
     case "cmd":
       return (
         <p>
-          <span className="text-accent">{PROMPT}</span> <span className="text-white">{l.v}</span>
+          <span className="text-accent-ink">{PROMPT}</span> <span className="text-white">{l.v}</span>
         </p>
       );
     case "head":
@@ -73,7 +74,7 @@ function Line({ l }) {
       return (
         <p className="grid grid-cols-[minmax(0,14rem)_1fr] gap-4">
           <span className="text-white">{l.k}</span>
-          <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-accent underline-offset-4 hover:underline">
+          <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-accent-ink underline-offset-4 hover:underline">
             {l.v}
           </a>
         </p>
@@ -155,8 +156,8 @@ export default function Terminal() {
   const quick = ["jair-merlo --skills frontend", "jair-merlo --skills cloud", "jair-merlo --experience", "jair-merlo --contact", "help", "clear"];
 
   return (
-    <section id="stack" data-theme-section="stack" className="relative border-t border-line py-28 md:py-40">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+    <section id="stack" data-theme-section="stack" className={SCREEN}>
+      <div className="mx-auto w-full max-w-7xl px-5 md:px-8">
         <SectionHeading
           index="03"
           kicker="Tech stack"
@@ -176,7 +177,7 @@ export default function Terminal() {
             <div
               data-scroll
               onClick={() => inputRef.current?.focus()}
-              className="h-[26rem] overflow-y-auto px-5 py-5 font-mono text-[13px] leading-relaxed space-y-1"
+              className="h-[clamp(16rem,46svh,26rem)] overflow-y-auto px-5 py-5 font-mono text-[13px] leading-relaxed space-y-1"
               role="log"
               aria-live="polite"
             >
@@ -184,7 +185,7 @@ export default function Terminal() {
                 <Line key={i} l={l} />
               ))}
               <label className="flex items-center gap-2">
-                <span className="text-accent shrink-0">{PROMPT}</span>
+                <span className="text-accent-ink shrink-0">{PROMPT}</span>
                 <span className="sr-only">Terminal command</span>
                 <input
                   ref={inputRef}

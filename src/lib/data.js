@@ -10,8 +10,7 @@ export const profile = {
   cv: "https://docs.google.com/document/d/1nSvOKaZT4bJvBNaLd_WJ4TCimXRMweyEhyVypRdt4-I/export?format=pdf",
   summary:
     "Web developer with over 6 years of experience building scalable applications across financial, real estate, logistics, and non-profit sectors. Skilled in React, C# / .NET, and Node.js (Nest.js) with a focus on performance, clean architecture, and AWS deployments.",
-  belief:
-    "High-quality software comes from effective communication, collaboration, and continuous improvement.",
+  belief: "High-quality software comes from effective communication, collaboration, and continuous improvement.",
   education: { school: "UNIVALLE University, Bolivia", degree: "Electronic Engineering (Bachelor's Degree)" },
   languages: [
     { name: "English", level: "Advanced" },
@@ -33,7 +32,7 @@ export const experience = [
   {
     id: "yape",
     company: "Yape",
-    role: "Senior Frontend Developer",
+    role: "Developer - Operations",
     period: "Feb 2025 — Present",
     location: "USA · Remote",
     sector: "Fintech · Super-app",
@@ -84,8 +83,7 @@ export const experience = [
     location: "Miami, USA · Remote",
     sector: "Real estate · B2B SaaS",
     url: "https://www.tremgroup.com/",
-    summary:
-      "Real estate technology company building tools for 1,000+ real estate brands and managing their websites.",
+    summary: "Real estate technology company building tools for 1,000+ real estate brands and managing their websites.",
     highlights: [
       { stat: "10x", label: "Rendering speed" },
       { stat: "80%", label: "Quicker page load" },
@@ -128,8 +126,20 @@ export const experience = [
 
 export const skills = {
   frontend: [
-    "React", "Next.js", "TypeScript", "JavaScript", "Angular", "Vue.js", "Svelte", "Redux Toolkit",
-    "RTK Query", "Tailwind CSS", "Styled-components", "Ant Design", "MUI", "Storybook",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Angular",
+    "Vue.js",
+    "Svelte",
+    "Redux Toolkit",
+    "RTK Query",
+    "Tailwind CSS",
+    "Styled-components",
+    "Ant Design",
+    "MUI",
+    "Storybook",
   ],
   backend: ["Node.js", "Nest.js", "Express", "C# / .NET", "REST APIs", "Redis", "Mongoose", "MySQL", "Firebase", "JWT"],
   cloud: ["AWS EC2", "S3", "Lambda", "API Gateway", "CloudFront", "RDS", "Route 53", "IAM", "CloudWatch", "ECS / ECR", "CloudFormation", "AppSync"],
@@ -138,30 +148,87 @@ export const skills = {
   practices: ["Clean Architecture", "SOLID", "DDD", "OOP", "Scrum", "Figma → Code"],
 };
 
-export const testimonials = [
+export const coreTech = [
   {
-    placeholder: true,
-    quote: "Space reserved for a recommendation from a Yape teammate or lead. Paste the text from LinkedIn recommendations here.",
-    name: "Recommendation pending",
-    title: "Colleague · Yape",
+    id: "react",
+    name: "React",
+    glyph: "⚛",
+    usedAt: ["Trem Group", "DeltaX", "Yape"],
+    stat: "80%",
+    statLabel: "Quicker page loads",
+    achievement: "Re-architected a B2B real estate frontend into reusable components following SOLID principles.",
+    solutions: [
+      "10x faster rendering by replacing outdated libraries and shrinking stylesheets",
+      "15+ Stripe payment gateways with Redux, Redux Persist and reCAPTCHA-backed tokens",
+      "Scalable UI system built on 20+ Ant Design components",
+    ],
+    tools: ["Redux Toolkit", "RTK Query", "Hooks", "Ant Design", "Jest"],
   },
   {
-    placeholder: true,
-    quote: "Space reserved for a recommendation from a Trem Group manager or client stakeholder.",
-    name: "Recommendation pending",
-    title: "Manager · Trem Group",
+    id: "typescript",
+    name: "TypeScript",
+    glyph: "TS",
+    usedAt: ["DeltaX", "Alpha Systems"],
+    stat: "10+",
+    statLabel: "Countries supported",
+    achievement: "Type-safe logistics tooling adapted to each company's measures and each country's requirements.",
+    solutions: [
+      "Responsive load/unload tools for 200+ transportation companies",
+      "Angular + .NET back-office redesign that cut duplicate-data issues by 50%",
+      "10+ features added to an internal reusable UI library",
+    ],
+    tools: ["Angular", "RxJS", "React Hook Form", "Material UI", "JWT"],
   },
   {
-    placeholder: true,
-    quote: "Space reserved for a recommendation from a DeltaX product or QA partner.",
-    name: "Recommendation pending",
-    title: "Product · DeltaX",
+    id: "nextjs",
+    name: "Next.js",
+    glyph: "N",
+    usedAt: ["Yape", "DeltaX"],
+    stat: "+22",
+    statLabel: "Lighthouse points",
+    achievement: "Led the migration of a legacy fintech frontend to Next.js 16, integrated with .NET backend services.",
+    solutions: [
+      "Modular main website serving 6M+ users, tuned for Google Tag Manager",
+      "Lightweight-library strategy that lifted Lighthouse scores by 22 points",
+      "Performance-first landing page for 5,000+ users",
+    ],
+    tools: ["App Router", ".NET APIs", "SonarQube", "Tailwind", "GTM"],
+  },
+  {
+    id: "node",
+    name: "Node.js",
+    glyph: "JS",
+    usedAt: ["DeltaX", "Full-stack projects"],
+    stat: "REST",
+    statLabel: "APIs & services",
+    achievement: "Backend services with Nest.js and Express, connecting modular UIs to RESTful APIs.",
+    solutions: [
+      "JWT-secured APIs consumed by logistics frontends",
+      "Data layers with MySQL, Redis, Mongoose and Firebase",
+      "Clean, domain-driven service boundaries (DDD, OOP)",
+    ],
+    tools: ["Nest.js", "Express", "Redis", "MySQL", "Mongoose"],
+  },
+  {
+    id: "aws",
+    name: "AWS",
+    glyph: "☁",
+    usedAt: ["Trem Group", "DeltaX"],
+    stat: "<5 min",
+    statLabel: "Deploys, down from 30",
+    achievement: "Automated releases with GitHub Actions and AWS CodeDeploy, removing human error from every deploy.",
+    solutions: [
+      "Static delivery on S3 + CloudFront with cache invalidation per release",
+      "Serverless endpoints with API Gateway and Lambda",
+      "Workloads on EC2 and RDS, observed with CloudWatch",
+    ],
+    tools: ["S3", "Lambda", "EC2", "CloudFront", "CodeDeploy"],
   },
 ];
 
-export const leadership = [
-  { title: "Led a Next.js 16 migration", text: "Owned the modernization of a legacy frontend serving millions of fintech users." },
-  { title: "Cross-functional delivery", text: "Partnered with Strategy, Growth and Marketing to scope and prioritize requirements." },
-  { title: "Parallel project ownership", text: "Managed 3 logistics projects at once while meeting every deadline." },
-  { title: "Release automation", text: "Designed pipelines that cut deploys from 30 to under 5 minutes." },
+export const achievements = [
+  { value: "20M+", label: "Users in the Yape ecosystem" },
+  { value: "1,000+", label: "Real estate brands on Trem tools" },
+  { value: "75%", label: "Of Bolivia's ATMs run on Alpha Systems" },
+  { value: "50+", label: "Critical bugs fixed with Jest coverage" },
 ];

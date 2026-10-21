@@ -6,6 +6,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import HudCorners from "@/components/ui/HudCorners";
 import CodeShowcase from "./CodeShowcase";
+import { SCREEN } from "@/lib/utils";
 
 const nodes = [
   { id: "cf", name: "CloudFront", Icon: Globe, col: 1, row: 2, desc: "Global CDN edge caching with cache-busting invalidations on every release for low-latency delivery." },
@@ -30,8 +31,8 @@ const pipeline = [
   { name: "Live", Icon: Radio, tool: "CloudFront" },
 ];
 
-// Grid → SVG coordinates (viewBox 400 x 240)
-const pos = (n) => ({ x: (n.col - 0.5) * 100, y: (n.row - 0.5) * 60 });
+// Grid → SVG coordinates (viewBox 400 x 200)
+const pos = (n) => ({ x: (n.col - 0.5) * 100, y: (n.row - 0.5) * 50 });
 
 function Architecture() {
   const [active, setActive] = useState("cf");
@@ -43,11 +44,11 @@ function Architecture() {
       <HudCorners className="m-2" />
       <div className="mb-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
         <span>Reference architecture</span>
-        <span className="text-accent">Select a service</span>
+        <span className="text-accent-ink">Select a service</span>
       </div>
 
-      <div className="relative aspect-[5/3]">
-        <svg viewBox="0 0 400 240" className="absolute inset-0 h-full w-full" aria-hidden>
+      <div className="relative aspect-[2/1]">
+        <svg viewBox="0 0 400 200" className="absolute inset-0 h-full w-full" aria-hidden>
           {edges.map(([a, b], i) => {
             const p1 = pos(byId[a]);
             const p2 = pos(byId[b]);
@@ -73,12 +74,12 @@ function Architecture() {
               onMouseEnter={() => setActive(n.id)}
               onFocus={() => setActive(n.id)}
               aria-pressed={on}
-              style={{ left: `${(p.x / 400) * 100}%`, top: `${(p.y / 240) * 100}%` }}
+              style={{ left: `${(p.x / 400) * 100}%`, top: `${(p.y / 200) * 100}%` }}
               className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5"
             >
               <span
                 className={`grid h-11 w-11 md:h-14 md:w-14 place-items-center rounded-xl border backdrop-blur transition-all duration-300 ${
-                  on ? "scale-110 border-accent bg-accent/15 text-accent shadow-[0_0_30px_-6px_var(--accent)]" : "border-line bg-black/70 text-white/80"
+                  on ? "scale-110 border-accent bg-accent/15 text-accent-ink shadow-[0_0_30px_-6px_var(--accent)]" : "border-line bg-black/70 text-white/80"
                 }`}
               >
                 <n.Icon size={20} />
@@ -89,7 +90,7 @@ function Architecture() {
         })}
       </div>
 
-      <motion.div key={current.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-6 border-t border-line pt-5">
+      <motion.div key={current.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-6 short:mt-3 border-t border-line pt-5 short:pt-3">
         <p className="font-display text-xl font-bold">{current.name}</p>
         <p className="mt-1 text-muted">{current.desc}</p>
       </motion.div>
@@ -105,8 +106,8 @@ function Pipeline() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted">CI/CD · automated releases</p>
-          <p className="mt-2 font-display text-2xl md:text-3xl font-bold">
-            30 min <span className="text-muted">→</span> <span className="text-accent">&lt;5 min</span>
+          <p className="mt-2 font-display text-4xl md:text-6xl font-bold tracking-tight">
+            30 min <span className="text-muted">→</span> <span className="text-accent-ink">&lt;5 min</span>
           </p>
         </div>
         <p className="max-w-xs text-sm text-muted">GitHub Actions, AWS CodeDeploy and Azure DevOps pipelines with test and quality gates before every release.</p>
@@ -119,7 +120,7 @@ function Pipeline() {
             initial={{ opacity: 0.25 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.3 + i * 0.35, duration: 0.4 }}
-            className="relative overflow-hidden rounded-xl border border-line bg-black/50 p-4"
+            className="relative overflow-hidden rounded-xl border border-line bg-black/50 p-5 md:p-6"
           >
             <motion.span
               aria-hidden
@@ -128,7 +129,7 @@ function Pipeline() {
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ delay: 0.3 + i * 0.35, duration: 0.35 }}
             />
-            <s.Icon size={18} className="text-accent" />
+            <s.Icon size={22} className="text-accent-ink" />
             <p className="mt-3 text-sm font-semibold">{s.name}</p>
             <p className="mt-0.5 font-mono text-[10px] text-muted">{s.tool}</p>
           </motion.li>
@@ -140,25 +141,37 @@ function Pipeline() {
 
 export default function Cloud() {
   return (
-    <section id="cloud" data-theme-section="cloud" className="relative border-t border-line py-28 md:py-40">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <SectionHeading
-          index="04"
-          kicker="Cloud & architecture"
-          title="From commit to the edge, automated."
-          intro="Production experience across AWS — S3, Lambda, EC2, CloudFront, API Gateway, RDS — with CI/CD that removes human error from every release."
-        />
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <Reveal className="min-w-0">
-            <Architecture />
-          </Reveal>
-          <Reveal delay={0.1} className="min-w-0">
-            <CodeShowcase />
+    <section id="cloud" data-theme-section="cloud" className="relative">
+      <div className={SCREEN}>
+        <div className="mx-auto w-full max-w-7xl px-5 md:px-8">
+          <SectionHeading
+            index="04"
+            kicker="Cloud & architecture"
+            title="From commit to the edge, automated."
+            intro="Production experience across AWS — S3, Lambda, EC2, CloudFront, API Gateway, RDS."
+          />
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+            <Reveal className="min-w-0">
+              <Architecture />
+            </Reveal>
+            <Reveal delay={0.1} className="min-w-0">
+              <CodeShowcase />
+            </Reveal>
+          </div>
+        </div>
+      </div>
+      <div className={SCREEN}>
+        <div className="mx-auto w-full max-w-7xl px-5 md:px-8">
+          <SectionHeading
+            index="04.1"
+            kicker="CI/CD"
+            title="Releases without the release-day fear."
+            intro="Test and quality gates before every deploy, shipped through GitHub Actions, AWS CodeDeploy and Azure DevOps."
+          />
+          <Reveal>
+            <Pipeline />
           </Reveal>
         </div>
-        <Reveal className="mt-5">
-          <Pipeline />
-        </Reveal>
       </div>
     </section>
   );

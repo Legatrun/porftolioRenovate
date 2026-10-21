@@ -69,7 +69,7 @@ function highlight(line) {
           __html: p
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
-            .replace(KW, '<span class="text-accent">$1</span>')
+            .replace(KW, '<span class="text-accent-ink">$1</span>')
             .replace(/\b(\d+)\b/g, '<span class="text-amber-300">$1</span>'),
         }}
       />
@@ -118,7 +118,7 @@ export default function CodeShowcase() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25 }}
-          className="overflow-x-auto p-5 font-mono text-[12.5px] leading-6"
+          className="overflow-x-auto p-4 font-mono text-[12px] leading-5 short:text-[11px] short:leading-[18px] short:py-3"
         >
           <code>
             {files[tab].split("\n").map((l, i) => (

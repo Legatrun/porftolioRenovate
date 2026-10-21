@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, SCREEN } from "@/lib/utils";
 import { Reveal } from "@/components/ui/Reveal";
 import { YapeVisual, DeltaXVisual, TremVisual, AlphaVisual } from "./Visuals";
 
@@ -43,14 +43,13 @@ export default function Chapter({ job, index }) {
   const Visual = s.visual;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bgX = useTransform(scrollYProgress, [0, 1], ["12%", "-28%"]);
-  const visualY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
     <article
       ref={ref}
       id={`exp-${job.id}`}
       data-theme-section={job.id}
-      className="relative overflow-x-clip border-t border-line py-24 md:py-36"
+      className={cn(SCREEN, "overflow-x-clip")}
     >
       <motion.div
         aria-hidden
@@ -61,19 +60,19 @@ export default function Chapter({ job, index }) {
       </motion.div>
       <div aria-hidden className="glow-orb absolute -left-[20vmax] top-1/3 h-[45vmax] w-[45vmax] opacity-40" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-14 px-5 md:px-8 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-8 px-5 md:px-8 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
         {/* Sticky identity column */}
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <Reveal className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-accent">
+        <div>
+          <Reveal className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-[0.25em] text-accent-ink">
             <span>Chapter {String(index + 1).padStart(2, "0")}</span>
-            <span className="h-px w-8 bg-accent/60" />
+            <span className="hidden h-px w-8 bg-accent/60 sm:block" />
             <span className="text-muted">{job.sector}</span>
           </Reveal>
 
           <Reveal delay={0.05}>
-            <h3 className={cn("mt-5 text-5xl md:text-7xl leading-[0.95]", s.title)}>{job.company}</h3>
+            <h3 className={cn("mt-3 text-4xl md:text-6xl short:md:text-5xl leading-[0.95]", s.title)}>{job.company}</h3>
           </Reveal>
-          <Reveal delay={0.1} className="mt-4 text-xl text-white/90">
+          <Reveal delay={0.1} className="mt-3 text-lg text-white/90">
             {job.role}
           </Reveal>
           <Reveal delay={0.15} className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs uppercase tracking-widest text-muted">
@@ -82,14 +81,14 @@ export default function Chapter({ job, index }) {
             <span>{job.location}</span>
           </Reveal>
 
-          <Reveal delay={0.2} className="mt-8 max-w-md leading-relaxed text-muted">
+          <Reveal delay={0.2} className="mt-5 max-w-md text-sm md:text-base leading-relaxed text-muted">
             <p>{job.summary}</p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-3 gap-3">
+          <div className="mt-6 short:mt-4 grid grid-cols-3 gap-3">
             {job.highlights.map((h, i) => (
               <Reveal key={h.label} delay={0.25 + i * 0.07}>
-                <div className={cn("border border-line bg-white/[0.03] p-4 transition-colors hover:border-accent/60", s.card)}>
+                <div className={cn("border border-line bg-white/[0.04] p-3 transition-colors hover:border-accent", s.card)}>
                   <p className="font-display text-2xl md:text-3xl font-bold text-accent tabular-nums">{h.stat}</p>
                   <p className="mt-1 text-xs text-muted">{h.label}</p>
                 </div>
@@ -102,7 +101,7 @@ export default function Chapter({ job, index }) {
               href={job.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-8 inline-flex items-center gap-1.5 text-sm text-muted transition hover:text-accent"
+              className="group mt-5 inline-flex items-center gap-1.5 text-sm text-muted transition hover:text-accent-ink"
             >
               Visit {job.company}
               <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -112,26 +111,26 @@ export default function Chapter({ job, index }) {
 
         {/* Narrative column */}
         <div>
-          <motion.div style={{ y: visualY }}>
+          <div>
             <Reveal>
               <Visual />
             </Reveal>
-          </motion.div>
+          </div>
 
-          <ol className="mt-14 space-y-6">
+          <ol className="mt-6 short:mt-4 space-y-3 short:space-y-2">
             {job.bullets.map((b, i) => (
               <Reveal key={i} delay={i * 0.05} as="li" className="group flex gap-5">
-                <span className="mt-2.5 flex-none">
+                <span className="mt-2 flex-none">
                   <span className={cn("block h-2 w-2 bg-accent transition-transform group-hover:scale-150", s.bullet)} />
                 </span>
-                <p className="text-lg leading-relaxed text-white/80 transition-colors group-hover:text-white">{b}</p>
+                <p className="text-sm md:text-[15px] leading-relaxed text-white/85 transition-colors group-hover:text-white">{b}</p>
               </Reveal>
             ))}
           </ol>
 
-          <Reveal className="mt-12 flex flex-wrap gap-2">
+          <Reveal className="mt-6 flex flex-wrap gap-1.5">
             {job.stack.map((t) => (
-              <span key={t} className={cn("border border-line bg-white/[0.03] px-3 py-1.5 text-sm text-white/80 transition hover:border-accent hover:text-white", s.chip)}>
+              <span key={t} className={cn("border border-line bg-white/[0.04] px-2.5 py-1 text-xs text-white/85 transition hover:border-accent hover:text-white", s.chip)}>
                 {t}
               </span>
             ))}
