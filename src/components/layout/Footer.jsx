@@ -1,27 +1,32 @@
-import React from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from "lucide-react";
+import { profile } from "@/lib/data";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200 py-12 mt-auto">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-sm text-slate-500">
-          © {new Date().getFullYear()} Jair Merlo. Construido con Next.js & Tailwind.
-        </div>
-        <div className="flex space-x-6 text-slate-400">
-          <a href="https://github.com/Legatrun" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900 cursor-pointer">
-            <Github size={20} />
-          </a>
-          <a href="https://linkedin.com/in/jairmerloluque" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 cursor-pointer">
-            <Linkedin size={20} />
-          </a>
-          <a href="mailto:joaquimmerlo1@gmail.com" className="hover:text-red-500 cursor-pointer">
-            <Mail size={20} />
-          </a>
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 md:px-8 py-10 md:flex-row md:items-center md:justify-between">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+          © {new Date().getFullYear()} {profile.name} · Built with Next.js, Tailwind CSS & Framer Motion
+        </p>
+        <div className="flex gap-2">
+          {[
+            { href: profile.github, label: "GitHub", Icon: Github },
+            { href: profile.linkedin, label: "LinkedIn", Icon: Linkedin },
+            { href: `mailto:${profile.email}`, label: "Email", Icon: Mail },
+          ].map(({ href, label, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              aria-label={label}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="grid h-10 w-10 place-items-center rounded-full border border-line text-muted transition hover:border-accent hover:text-accent"
+            >
+              <Icon size={17} />
+            </a>
+          ))}
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

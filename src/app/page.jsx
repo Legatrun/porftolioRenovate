@@ -1,29 +1,21 @@
-"use client";
-import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
-import { HomePage } from "@/app/home/page";
-import ShowcasePage from "@/app/showcase/page";
-import { AboutPage } from "@/app/about/page";
+import Hero from "@/components/sections/Hero";
+import Impact from "@/components/sections/Impact";
+import Experience from "@/components/sections/experience/Experience";
+import Terminal from "@/components/sections/Terminal";
+import Cloud from "@/components/sections/cloud/Cloud";
+import Testimonials from "@/components/sections/Testimonials";
+import Contact from "@/components/sections/Contact";
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState('home');
-
-  const navigate = (tab) => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setActiveTab(tab);
-  };
-
+export default function Home() {
   return (
-    <div className="bg-white font-sans text-slate-900 selection:bg-blue-100">
-      <main className="pt-24">
-        <AnimatePresence mode="wait">
-          {activeTab === 'home' && <HomePage key="home" navigate={navigate} />}
-          {activeTab === 'showcase' && <ShowcasePage key="showcase" />}
-          {activeTab === 'about' && <AboutPage key="about" />}
-        </AnimatePresence>
-      </main>
-    </div>
+    <>
+      <Hero />
+      <Impact />
+      <Experience />
+      <Terminal />
+      <Cloud />
+      <Testimonials />
+      <Contact />
+    </>
   );
-};
-
-export default App;
+}

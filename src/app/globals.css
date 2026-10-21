@@ -1,14 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --foreground-rgb: 15, 23, 42;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #050507;
+  --color-ink-2: #0b0b10;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-fg: #f4f4f6;
+  --color-muted: #9a9aa6;
+
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
 }
 
+/* Registered properties let the scroll-driven theme fade instead of snapping. */
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #7c5cff; }
+@property --accent-2 { syntax: "<color>"; inherits: true; initial-value: #22d3ee; }
+@property --bg { syntax: "<color>"; inherits: true; initial-value: #050507; }
+
+:root {
+  --accent: #7c5cff;
+  --accent-2: #22d3ee;
+  --bg: #050507;
+  color-scheme: dark;
+  transition: --accent 0.9s ease, --accent-2 0.9s ease, --bg 0.9s ease;
+}
+
+/* Company-inspired palettes, applied by <ScrollTheme /> as sections enter view. */
+:root[data-theme="yape"]   { --accent: #a43bff; --accent-2: #ff2d9b; --bg: #0c0514; }
+:root[data-theme="deltax"] { --accent: #00e5ff; --accent-2: #ff7a1a; --bg: #020608; }
+:root[data-theme="trem"]   { --accent: #d4b27a; --accent-2: #f5f1e8; --bg: #070707; }
+:root[data-theme="alpha"]  { --accent: #3b82f6; --accent-2: #94a3b8; --bg: #050912; }
+:root[data-theme="stack"]  { --accent: #4ade80; --accent-2: #22d3ee; --bg: #040806; }
+:root[data-theme="cloud"]  { --accent: #ff9900; --accent-2: #38bdf8; --bg: #07070a; }
+
+html { scroll-behavior: smooth; }
+
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: var(--bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+/* Utility helpers */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 0.14);
+}
+.text-gradient {
+  background: linear-gradient(100deg, #fff 10%, var(--accent) 55%, var(--accent-2) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.glow-orb {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 55%, transparent), transparent);
+  filter: blur(40px);
+}
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.grid-bg {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 40s linear infinite; }
+
+@keyframes blink { 50% { opacity: 0; } }
+.caret { animation: blink 1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  :root { transition: none; }
+  .animate-marquee, .caret { animation: none; }
 }
