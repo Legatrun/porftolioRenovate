@@ -33,8 +33,8 @@ export const experience = [
     id: "yape",
     company: "Yape",
     role: "Developer - Operations",
-    period: "Feb 2025 — Present",
-    location: "USA · Remote",
+    period: "Mar 2026 — Present",
+    location: "Latam · Remote",
     sector: "Fintech · Super-app",
     url: "https://www.yape.com.bo/",
     summary:
@@ -44,13 +44,7 @@ export const experience = [
       { stat: "6M+", label: "Website users" },
       { stat: "20M+", label: "Ecosystem users" },
     ],
-    bullets: [
-      "Led the migration of a legacy system to Next.js 16, modernizing the frontend architecture and optimizing its integration with .NET backend services for scalability and maintainability.",
-      "Raised Google Lighthouse scores by 22 points through a strategic migration to lightweight, efficient libraries.",
-      "Maintained the main website (6M+ users) on a modular architecture, optimizing performance for Google Tag Manager integration.",
-      "Managed the SDLC and implemented automated CI/CD workflows (pipelines and releases) with Azure DevOps.",
-      "Coordinated directly with Strategy, Growth and Marketing on the definition, prioritization and delivery of technical requirements.",
-    ],
+    bullets: [],
     stack: ["Next.js", ".NET", "JavaScript", "Azure DevOps", "SonarQube", "GitHub Actions", "CSS3", "Figma"],
   },
   {
@@ -68,11 +62,7 @@ export const experience = [
       { stat: "200+", label: "Companies served" },
       { stat: "5K+", label: "Landing page users" },
     ],
-    bullets: [
-      "Adapted logistics tools to each company's specific measures and to the requirements of 10+ countries, across devices with responsive design.",
-      "Turned Figma designs into Jira user stories, worked closely with QA, and managed 3 projects simultaneously while meeting deadlines.",
-      "Built a modular, performance-first landing page for 5,000+ users.",
-    ],
+    bullets: [],
     stack: ["React", "Next.js", "TypeScript", "Node.js", "Material UI", "Tailwind", "Tesseract.js", "AWS", "JWT"],
   },
   {
@@ -89,14 +79,7 @@ export const experience = [
       { stat: "80%", label: "Quicker page load" },
       { stat: "15+", label: "Payment gateways" },
     ],
-    bullets: [
-      "Achieved 80% quicker page loads by breaking the frontend into reusable React components following SOLID principles.",
-      "Developed and integrated 15+ payment gateways with Stripe, React, Redux, Redux Persist and reCAPTCHA-backed token creation.",
-      "Improved rendering time 10x by replacing outdated libraries and shrinking stylesheet size.",
-      "Built CI/CD pipelines with GitHub Actions and AWS CodeDeploy, cutting deploy time from 30 minutes to under 5.",
-      "Fixed 50+ critical bugs and secured quality with Jest test coverage.",
-      "Built a highly scalable system with 20+ Ant Design components rendering correctly across platforms.",
-    ],
+    bullets: [],
     stack: ["React 18", "Redux Toolkit", "RTK Query", "Ant Design", "Stripe", "Docker", "Vite", "Cypress", "TanStack"],
   },
   {

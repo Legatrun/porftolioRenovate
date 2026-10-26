@@ -4,7 +4,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn, SCREEN } from "@/lib/utils";
 import { Reveal } from "@/components/ui/Reveal";
-import { YapeVisual, DeltaXVisual, TremVisual, AlphaVisual } from "./Visuals";
+import { DeltaXVisual, TremVisual, AlphaVisual } from "./Visuals";
+import { YapeVisual } from "./Visuals";
+import YapeChapter from "./YapeChapter";
 
 const styles = {
   yape: {
@@ -38,6 +40,11 @@ const styles = {
 };
 
 export default function Chapter({ job, index }) {
+  if (job.id === "yape") return <YapeChapter job={job} index={index} />;
+  return <StandardChapter job={job} index={index} />;
+}
+
+function StandardChapter({ job, index }) {
   const ref = useRef(null);
   const s = styles[job.id];
   const Visual = s.visual;
