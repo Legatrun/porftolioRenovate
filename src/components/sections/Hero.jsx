@@ -14,7 +14,11 @@ const APPLE = [0.16, 1, 0.3, 1];
 */
 export default function Hero() {
   return (
-    <section id="top" data-theme-section="default" className="relative flex min-h-svh md:h-svh snap-start snap-always flex-col items-center overflow-hidden pt-24 short:pt-20 text-center">
+    <section
+      id="top"
+      data-theme-section="default"
+      className="relative flex min-h-svh md:h-svh snap-start snap-always flex-col items-center overflow-hidden pt-24 short:pt-20 text-center"
+    >
       <div aria-hidden className="grid-bg absolute inset-0" />
       <div aria-hidden className="glow-orb absolute left-1/2 top-[55%] -ml-[32vmax] -mt-[32vmax] h-[64vmax] w-[64vmax] opacity-50" />
 
@@ -41,16 +45,6 @@ export default function Hero() {
           Jair <span className="text-gradient">Merlo</span>
         </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 36 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 1.05, ease: APPLE }}
-          className="mx-auto mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-muted"
-        >
-          6+ years engineering fast, scalable web products across fintech, real estate and logistics —
-          <span className="text-white"> React, Next.js, Node.js, .NET and AWS.</span>
-        </motion.p>
-
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,7 +57,10 @@ export default function Hero() {
             </a>
           </Magnetic>
           <Magnetic>
-            <a href="#contact" className="group inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-semibold transition hover:border-white">
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-semibold transition hover:border-white"
+            >
               Let&apos;s talk <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </Magnetic>
