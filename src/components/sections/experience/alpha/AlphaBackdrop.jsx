@@ -245,9 +245,11 @@ export default function AlphaBackdrop({ wide }) {
       const nh = h * (wide ? 0.34 : 0.3);
       const node = (i) => [nx + CITIES[i][1] * nw + ptr.sx * -8, ny + CITIES[i][2] * nh];
 
-      ctx.strokeStyle = `rgba(${GREEN},${0.22 * a})`;
-      ctx.lineWidth = 1;
-      ctx.setLineDash([3, 5]);
+      ctx.strokeStyle = `rgba(${GREEN},${0.55 * a})`;
+      ctx.lineWidth = 1.75;
+      ctx.lineCap = "round";
+      ctx.setLineDash([6, 5]);
+      ctx.lineDashOffset = -time * 12;
       ctx.beginPath();
       for (const [i, j] of LINKS) {
         const [x0, y0] = node(i), [x1, y1] = node(j);
@@ -256,6 +258,8 @@ export default function AlphaBackdrop({ wide }) {
       }
       ctx.stroke();
       ctx.setLineDash([]);
+      ctx.lineDashOffset = 0;
+      ctx.lineCap = "butt";
 
       LINKS.forEach(([i, j], k) => {
         const [x0, y0] = node(i), [x1, y1] = node(j);

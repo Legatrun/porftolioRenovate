@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import ScrollTheme from "@/components/ScrollTheme";
 import SnapScroller from "@/components/SnapScroller";
 import MotionProvider from "@/components/MotionProvider";
+import TouchCursor from "@/components/ui/TouchCursor";
 
 const inter = localFont({ src: "./fonts/Inter.woff2", variable: "--font-inter", weight: "100 900", display: "swap" });
 const grotesk = localFont({ src: "./fonts/SpaceGrotesk.woff2", variable: "--font-grotesk", weight: "300 700", display: "swap" });
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main id="main">{children}</main>
         </MotionProvider>
+        <TouchCursor />
       </body>
     </html>
   );

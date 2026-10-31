@@ -164,9 +164,11 @@ export default function DeltaXBackdrop({ wide }) {
         return [u * u * p0[0] + 2 * u * t * c[0] + t * t * p1[0], u * u * p0[1] + 2 * u * t * c[1] + t * t * p1[1]];
       };
 
-      ctx.strokeStyle = `rgba(255,255,255,${0.12 * a})`;
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 6]);
+      ctx.strokeStyle = `rgba(255,214,150,${0.42 * a})`;
+      ctx.lineWidth = 1.75;
+      ctx.lineCap = "round";
+      ctx.setLineDash([7, 6]);
+      ctx.lineDashOffset = -time * 14; // dashes drift along the route
       ctx.beginPath();
       for (const [i, j] of ROUTES) {
         const p0 = hub(i), p1 = hub(j), c = ctrl(p0, p1);
@@ -175,6 +177,8 @@ export default function DeltaXBackdrop({ wide }) {
       }
       ctx.stroke();
       ctx.setLineDash([]);
+      ctx.lineDashOffset = 0;
+      ctx.lineCap = "butt";
 
       ROUTES.forEach(([i, j], k) => {
         const p0 = hub(i), p1 = hub(j), c = ctrl(p0, p1);

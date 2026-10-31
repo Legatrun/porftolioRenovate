@@ -20,12 +20,12 @@ export const profile = {
 };
 
 export const metrics = [
-  { value: 22, prefix: "+", suffix: "", label: "Points gained on Google Lighthouse", context: "Yape" },
-  { value: 10, prefix: "", suffix: "x", label: "Faster rendering after library overhaul", context: "Trem Group" },
-  { value: 6, prefix: "", suffix: "+", label: "Years building scalable systems", context: "2020 — today" },
-  { value: 20, prefix: "+", suffix: "M", label: "Active users in the app ecosystem", context: "Yape" },
-  { value: 80, prefix: "", suffix: "%", label: "Quicker page load via SOLID components", context: "Trem Group" },
-  { value: 5, prefix: "<", suffix: " min", label: "Deploy time, down from 30 minutes", context: "CI/CD" },
+  { value: 20, prefix: "+", suffix: "M", label: "Active users in the app ecosystem", context: "Yape", viz: "users" },
+  { value: 22, prefix: "+", suffix: "", label: "Points gained on Google Lighthouse", context: "Yape", viz: "gauge" },
+  { value: 10, prefix: "", suffix: "x", label: "Faster rendering after library overhaul", context: "Trem Group", viz: "ratio" },
+  { value: 80, prefix: "", suffix: "%", label: "Quicker page load via SOLID components", context: "Trem Group", viz: "progress" },
+  { value: 5, prefix: "<", suffix: " min", label: "Deploy time, down from 30 minutes", context: "CI/CD", viz: "deploy", from: 30 },
+  { value: 6, prefix: "", suffix: "+", label: "Years building scalable systems", context: "2020 — today", viz: "years", since: 2020 },
 ];
 
 export const experience = [
