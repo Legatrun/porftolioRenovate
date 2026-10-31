@@ -27,7 +27,7 @@ export function createScreen() {
   canvas.height = H;
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 8;
+  texture.anisotropy = 4;
   // The model's screen UVs only cover u 0.453–0.763 / v 0.149–0.790 (bottom → top):
   // stretch the canvas over exactly that window.
   const U0 = 0.4529, U1 = 0.7634, V0 = 0.1492, V1 = 0.7902;
@@ -176,6 +176,6 @@ export function createBillTexture() {
   x.fillText("50", 472, 128);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 8;
+  t.anisotropy = 4;
   return t;
 }

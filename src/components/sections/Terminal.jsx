@@ -156,7 +156,7 @@ export default function Terminal() {
   const quick = ["jair-merlo --skills frontend", "jair-merlo --skills cloud", "jair-merlo --experience", "jair-merlo --contact", "help", "clear"];
 
   return (
-    <section id="stack" data-theme-section="stack" className={SCREEN}>
+    <section id="stack" data-theme-section="default" className={SCREEN}>
       <div className="mx-auto w-full max-w-7xl px-5 md:px-8">
         <SectionHeading
           index="03"
@@ -166,7 +166,7 @@ export default function Terminal() {
         />
 
         <Reveal>
-          <div ref={boxRef} className="overflow-hidden rounded-2xl border border-line bg-black/70 shadow-[0_0_120px_-40px_var(--accent)] backdrop-blur">
+          <div ref={boxRef} className="overflow-hidden rounded-2xl border border-line bg-black/70 shadow-[0_0_120px_-60px_var(--accent)] backdrop-blur">
             <div className="flex items-center gap-2 border-b border-line px-4 py-3">
               <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
               <span className="h-3 w-3 rounded-full bg-[#febc2e]" />

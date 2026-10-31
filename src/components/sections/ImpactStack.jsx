@@ -84,7 +84,7 @@ export default function ImpactStack() {
 
           {/* Detail panel */}
           <div id="tech-panel" role="tabpanel" className="relative min-h-[22rem] short:min-h-0 overflow-hidden rounded-2xl border border-line bg-white/[0.02] p-6 md:p-8 short:md:p-6">
-            <div aria-hidden className="glow-orb absolute -right-24 -top-24 h-72 w-72 opacity-40" />
+            <div aria-hidden className="glow-orb absolute -right-24 -top-24 h-72 w-72 opacity-15" />
             <AnimatePresence mode="wait">
               <motion.div
                 key={tech.id}

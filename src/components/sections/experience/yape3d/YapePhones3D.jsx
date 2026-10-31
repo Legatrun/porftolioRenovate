@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { createBillTexture, createScreen, drawScreen } from "./screenTexture";
+import { useContextRecovery } from "@/lib/webgl";
 
 export const MODEL_URL = "/iphone_15_pro_max.glb";
 
@@ -95,7 +96,8 @@ function Scene({ active, reduce, onReady, focusX }) {
     else if (s.start !== null && s.start >= 0) s.nextSend = -1;
   }, [active]);
 
-  useFrame((state, dt) => {
+  useFrame((state, rawDt) => {
+    const dt = Math.min(rawDt, 0.05);
     const s = st.current;
     const t = state.clock.elapsedTime;
     if (s.start === -1) {
@@ -180,7 +182,7 @@ function Scene({ active, reduce, onReady, focusX }) {
       s.drawn.sender = sk;
       drawScreen(senderScreen, { role: "sender", balance: s.sender.shown, sending: s.sender.sending });
     }
-    const rk = `${Math.round(s.receiver.shown)}|${s.receiver.toast.toFixed(2)}|${s.receiver.flash.toFixed(2)}`;
+    const rk = `${Math.round(s.receiver.shown)}|${s.receiver.toast.toFixed(1)}|${s.receiver.flash.toFixed(1)}`;
     if (s.drawn.receiver !== rk) {
       s.drawn.receiver = rk;
       drawScreen(receiverScreen, { role: "receiver", balance: s.receiver.shown, toast: Math.min(1, s.receiver.toast * 2), flash: s.receiver.flash });
@@ -244,11 +246,14 @@ function Scene({ active, reduce, onReady, focusX }) {
   );
 }
 
-export default function YapePhones3D({ active, running, reduce, onReady, focusX = 0, eventSource }) {
+export default function YapePhones3D({ active, running, reduce, onReady, onFail, focusX = 0, eventSource }) {
+  const { key, onCreated } = useContextRecovery(onFail);
   return (
     <Canvas
+      key={key}
+      onCreated={onCreated}
       frameloop={running ? "always" : "never"}
-      dpr={[1, 1.75]}
+      dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0.15, CAM_Z], fov: FOV }}
       style={{ position: "absolute", inset: 0 }}

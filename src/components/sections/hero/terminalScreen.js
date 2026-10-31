@@ -1,59 +1,81 @@
 import * as THREE from "three";
 
 /*
-  Draws a phosphor-green terminal onto a <canvas> used as the MacBook screen texture.
-  `progress` drives the typing; `power` (0..1) fades the screen on.
+  Draws a acid-green terminal onto a <canvas> used as the MacBook screen texture.
+  Static layers (background, vignette, scanlines) are pre-rendered once; each redraw only paints text.
+  Drawn in 1536×960 logical units onto a smaller backing canvas to cut texture upload cost.
 */
 
 export const TERM_W = 1536;
 export const TERM_H = 960;
-const GREEN = "#39ff14";
+const RES = 2 / 3; // backing canvas = 1024×640
+const GREEN = "#d4ff3f";
 
 function monoFamily() {
   const v = getComputedStyle(document.documentElement).getPropertyValue("--font-jetbrains").trim();
   return v ? `${v}, ui-monospace, monospace` : "ui-monospace, SFMono-Regular, Menlo, monospace";
 }
 
+function layer(draw) {
+  const c = document.createElement("canvas");
+  c.width = Math.round(TERM_W * RES);
+  c.height = Math.round(TERM_H * RES);
+  const x = c.getContext("2d");
+  x.scale(RES, RES);
+  draw(x);
+  return c;
+}
+
 export function createTerminal() {
   const canvas = document.createElement("canvas");
-  canvas.width = TERM_W;
-  canvas.height = TERM_H;
+  canvas.width = Math.round(TERM_W * RES);
+  canvas.height = Math.round(TERM_H * RES);
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.flipY = false; // the model's screen UVs are already 0..1 top-left
-  texture.anisotropy = 8;
-  return { canvas, ctx: canvas.getContext("2d"), texture, font: monoFamily() };
+  texture.anisotropy = 4;
+
+  // Background: deep phosphor black with a faint green vignette + window chrome.
+  const bg = layer((ctx) => {
+    ctx.fillStyle = "#0d0d0d";
+    ctx.fillRect(0, 0, TERM_W, TERM_H);
+    const v = ctx.createRadialGradient(TERM_W / 2, TERM_H / 2, TERM_H * 0.2, TERM_W / 2, TERM_H / 2, TERM_H * 0.95);
+    v.addColorStop(0, "rgba(212,255,63,0.07)");
+    v.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = v;
+    ctx.fillRect(0, 0, TERM_W, TERM_H);
+    ctx.fillStyle = "#141414";
+    ctx.fillRect(0, 0, TERM_W, 64);
+    ["#ff5f57", "#febc2e", "#28c840"].forEach((c, i) => {
+      ctx.beginPath();
+      ctx.arc(40 + i * 34, 32, 11, 0, Math.PI * 2);
+      ctx.fillStyle = c;
+      ctx.fill();
+    });
+  });
+  // CRT scanlines
+  const scan = layer((ctx) => {
+    ctx.fillStyle = "rgba(0,0,0,0.18)";
+    for (let sy = 0; sy < TERM_H; sy += 4) ctx.fillRect(0, sy, TERM_W, 2);
+  });
+
+  return { canvas, ctx: canvas.getContext("2d"), texture, font: monoFamily(), bg, scan };
 }
 
 /**
  * @param {{ prompt: string, command: string, output: string[] }} script
- * @param {{ typed: number, lines: number, cursor: boolean, power: number }} s
+ * @param {{ typed: number, lines: number, cursor: boolean }} s
  */
 export function drawTerminal(term, script, s) {
-  const { ctx, texture, font } = term;
+  const { ctx, texture, font, bg, scan } = term;
   const W = TERM_W;
-  const H = TERM_H;
 
-  // Background: deep phosphor black with a faint green vignette.
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = "#010601";
-  ctx.fillRect(0, 0, W, H);
-  const v = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.95);
-  v.addColorStop(0, "rgba(57,255,20,0.07)");
-  v.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.fillStyle = v;
-  ctx.fillRect(0, 0, W, H);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(bg, 0, 0);
+  ctx.setTransform(RES, 0, 0, RES, 0, 0);
 
-  // Window chrome
-  ctx.fillStyle = "#0b140b";
-  ctx.fillRect(0, 0, W, 64);
-  ["#ff5f57", "#febc2e", "#28c840"].forEach((c, i) => {
-    ctx.beginPath();
-    ctx.arc(40 + i * 34, 32, 11, 0, Math.PI * 2);
-    ctx.fillStyle = c;
-    ctx.fill();
-  });
-  ctx.fillStyle = "rgba(57,255,20,0.55)";
+  // Window title
+  ctx.fillStyle = "rgba(212,255,63,0.55)";
   ctx.font = `500 26px ${font}`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -66,7 +88,7 @@ export function drawTerminal(term, script, s) {
   let y = 150;
   ctx.font = `500 ${size}px ${font}`;
   ctx.shadowColor = GREEN;
-  ctx.shadowBlur = 16;
+  ctx.shadowBlur = 10; // in device px (not scaled by the transform)
 
   const line = (text, color = GREEN, x = 64) => {
     ctx.fillStyle = color;
@@ -74,7 +96,7 @@ export function drawTerminal(term, script, s) {
     y += lh;
   };
 
-  line(script.banner, "rgba(57,255,20,0.6)");
+  line(script.banner, "rgba(212,255,63,0.6)");
   y += 10;
 
   // Prompt + typed command
@@ -90,7 +112,7 @@ export function drawTerminal(term, script, s) {
   // Output
   script.output.slice(0, s.lines).forEach(([label, value]) => {
     if (label) {
-      ctx.fillStyle = "rgba(57,255,20,0.6)";
+      ctx.fillStyle = "rgba(212,255,63,0.6)";
       ctx.fillText(label.padEnd(8, " "), 64, y);
       ctx.fillStyle = GREEN;
       ctx.fillText(value, 64 + ctx.measureText("        ").width, y);
@@ -119,20 +141,8 @@ export function drawTerminal(term, script, s) {
   }
   ctx.shadowBlur = 0;
 
-  // CRT scanlines
-  ctx.fillStyle = "rgba(0,0,0,0.18)";
-  for (let sy = 0; sy < H; sy += 4) ctx.fillRect(0, sy, W, 2);
-
-  // Power-on fade
-  if (s.power < 1) {
-    ctx.fillStyle = `rgba(0,0,0,${1 - s.power})`;
-    ctx.fillRect(0, 0, W, H);
-    // Horizontal "CRT on" line
-    if (s.power > 0 && s.power < 0.6) {
-      ctx.fillStyle = `rgba(57,255,20,${0.8 - s.power})`;
-      ctx.fillRect(0, H / 2 - 3, W, 6);
-    }
-  }
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(scan, 0, 0);
 
   texture.needsUpdate = true;
 }

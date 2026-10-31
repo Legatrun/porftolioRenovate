@@ -3,18 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useInView, useReducedMotion } from "framer-motion";
 import { YapeVisual } from "../Visuals";
+import { hasWebGL } from "@/lib/webgl";
 
 // three.js is only downloaded when the Yape chapter gets close to the viewport.
 const YapePhones3D = dynamic(() => import("./YapePhones3D"), { ssr: false });
 
-function hasWebGL() {
-  try {
-    const c = document.createElement("canvas");
-    return !!(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
 
 /**
  * 3D stage for the Yape chapter (iPhone 15 Pro Max glTF, two phones + money transfer).
@@ -31,6 +24,7 @@ export default function YapeStage({ eventSource }) {
   const [visible, setVisible] = useState(false);
   const [ready, setReady] = useState(false);
   const onReady = useCallback(() => setReady(true), []);
+  const onFail = useCallback(() => setMode("css"), []);
 
   // ≥ lg: the canvas covers the whole section and the stage sits at 67% of its width.
   useEffect(() => {
@@ -70,17 +64,20 @@ export default function YapeStage({ eventSource }) {
       ref={ref}
       className="pointer-events-none relative mt-6 h-[60svh] w-full lg:absolute lg:inset-0 lg:z-30 lg:mt-0 lg:h-auto"
     >
-      {/* Neon glow: drop-shadow follows the phones' silhouettes on the transparent canvas */}
+      {/* Static neon glow behind the phones. (The old CSS drop-shadow over the canvas re-blurred the whole
+          section every frame and could stall low-end GPUs until the WebGL context was lost.) */}
       <div
-        className="absolute inset-0"
-        style={{ filter: "drop-shadow(0 0 14px rgba(16,203,180,0.55)) drop-shadow(0 28px 50px rgba(16,203,180,0.35))" }}
-      >
+        aria-hidden
+        className={`absolute left-1/2 top-1/2 h-[55%] w-[45%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#10cbb4]/20 blur-3xl transition-opacity duration-1000 lg:left-[65%] lg:w-[35%] ${ready ? "opacity-100" : "opacity-0"}`}
+      />
+      <div className="absolute inset-0">
         {mode === "webgl" && near && (
           <YapePhones3D
             active={active}
             running={visible}
             reduce={!!reduce}
             onReady={onReady}
+            onFail={onFail}
             focusX={wide ? 0.15 : 0}
             eventSource={eventSource}
           />

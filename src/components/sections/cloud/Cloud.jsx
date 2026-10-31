@@ -1,7 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { Globe, Database, Server, Zap, HardDrive, Network, Activity, GitCommit, Package, FlaskConical, ShieldCheck, Rocket, Radio } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Globe, Database, Server, Zap, HardDrive, Network, Activity } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import HudCorners from "@/components/ui/HudCorners";
@@ -20,15 +20,6 @@ const nodes = [
 
 const edges = [
   ["cf", "s3"], ["cf", "apigw"], ["apigw", "lambda"], ["lambda", "rds"], ["ec2", "rds"], ["s3", "ec2"], ["lambda", "cw"],
-];
-
-const pipeline = [
-  { name: "Commit", Icon: GitCommit, tool: "GitHub" },
-  { name: "Build", Icon: Package, tool: "Vite · Next.js" },
-  { name: "Test", Icon: FlaskConical, tool: "Jest · Cypress" },
-  { name: "Quality gate", Icon: ShieldCheck, tool: "SonarQube" },
-  { name: "Deploy", Icon: Rocket, tool: "CodeDeploy · Azure DevOps" },
-  { name: "Live", Icon: Radio, tool: "CloudFront" },
 ];
 
 // Grid → SVG coordinates (viewBox 400 x 200)
@@ -98,47 +89,6 @@ function Architecture() {
   );
 }
 
-function Pipeline() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
-  return (
-    <div ref={ref} className="rounded-2xl border border-line bg-white/[0.02] p-5 md:p-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted">CI/CD · automated releases</p>
-          <p className="mt-2 font-display text-4xl md:text-6xl font-bold tracking-tight">
-            30 min <span className="text-muted">→</span> <span className="text-accent-ink">&lt;5 min</span>
-          </p>
-        </div>
-        <p className="max-w-xs text-sm text-muted">GitHub Actions, AWS CodeDeploy and Azure DevOps pipelines with test and quality gates before every release.</p>
-      </div>
-
-      <ol className="relative mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        {pipeline.map((s, i) => (
-          <motion.li
-            key={s.name}
-            initial={{ opacity: 0.25 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.3 + i * 0.35, duration: 0.4 }}
-            className="relative overflow-hidden rounded-xl border border-line bg-black/50 p-5 md:p-6"
-          >
-            <motion.span
-              aria-hidden
-              className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-accent"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ delay: 0.3 + i * 0.35, duration: 0.35 }}
-            />
-            <s.Icon size={22} className="text-accent-ink" />
-            <p className="mt-3 text-sm font-semibold">{s.name}</p>
-            <p className="mt-0.5 font-mono text-[10px] text-muted">{s.tool}</p>
-          </motion.li>
-        ))}
-      </ol>
-    </div>
-  );
-}
-
 export default function Cloud() {
   return (
     <section id="cloud" data-theme-section="cloud" className="relative">
@@ -158,19 +108,6 @@ export default function Cloud() {
               <CodeShowcase />
             </Reveal>
           </div>
-        </div>
-      </div>
-      <div className={SCREEN}>
-        <div className="mx-auto w-full max-w-7xl px-5 md:px-8">
-          <SectionHeading
-            index="04.1"
-            kicker="CI/CD"
-            title="Releases without the release-day fear."
-            intro="Test and quality gates before every deploy, shipped through GitHub Actions, AWS CodeDeploy and Azure DevOps."
-          />
-          <Reveal>
-            <Pipeline />
-          </Reveal>
         </div>
       </div>
     </section>

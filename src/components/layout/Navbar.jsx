@@ -8,8 +8,6 @@ import { profile } from "@/lib/data";
 const links = [
   { href: "#impact", label: "Impact" },
   { href: "#experience", label: "Experience" },
-  { href: "#stack", label: "Stack" },
-  { href: "#cloud", label: "Cloud" },
   { href: "#tech-impact", label: "Tech Impact" },
   { href: "#contact", label: "Contact" },
 ];
@@ -50,7 +48,7 @@ export default function Navbar() {
       <motion.div style={{ scaleX: progress }} className="absolute bottom-0 left-0 right-0 h-px origin-left bg-accent" />
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8 h-16" aria-label="Primary">
         <a href="#top" className="group flex items-center gap-2.5 font-display font-bold tracking-tight">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-black transition-transform duration-300 group-hover:rotate-[-8deg]">
+          <span className="grid h-8 w-8 place-items-center rounded-sm bg-accent text-on-accent transition-transform duration-300 group-hover:rotate-[-8deg]">
             J
           </span>
           <span>
@@ -69,7 +67,7 @@ export default function Navbar() {
                 )}
               >
                 {active === l.href && (
-                  <motion.span layoutId="nav-pill" className="absolute inset-0 -z-10 rounded-full bg-white/[0.07] border border-line" />
+                  <motion.span layoutId="nav-pill" className="absolute inset-0 -z-10 rounded-sm bg-white/[0.07] border border-line" />
                 )}
                 {l.label}
               </a>
@@ -82,12 +80,12 @@ export default function Navbar() {
             href={profile.cv}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.04] px-4 py-2 text-sm font-medium transition hover:border-accent hover:text-accent-ink"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-sm border border-line bg-white/[0.04] px-4 py-2 text-sm font-medium transition hover:border-accent hover:text-accent-ink"
           >
             Résumé <ArrowUpRight size={15} />
           </a>
           <button
-            className="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-line"
+            className="lg:hidden grid h-10 w-10 place-items-center rounded-sm border border-line"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}

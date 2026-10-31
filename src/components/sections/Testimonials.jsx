@@ -46,7 +46,7 @@ export default function Testimonials() {
                         <span className="block text-sm text-muted">{t.title}</span>
                       </span>
                       {t.placeholder && (
-                        <span className="ml-auto rounded-full border border-line px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-muted">Template</span>
+                        <span className="ml-auto rounded-sm border border-line px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-muted">Template</span>
                       )}
                     </figcaption>
                   </motion.figure>
@@ -64,10 +64,10 @@ export default function Testimonials() {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => go(-1)} aria-label="Previous" className="grid h-10 w-10 place-items-center rounded-full border border-line transition hover:border-accent hover:text-accent">
+                  <button onClick={() => go(-1)} aria-label="Previous" className="grid h-10 w-10 place-items-center rounded-sm border border-line transition hover:border-accent hover:text-accent">
                     <ChevronLeft size={18} />
                   </button>
-                  <button onClick={() => go(1)} aria-label="Next" className="grid h-10 w-10 place-items-center rounded-full border border-line transition hover:border-accent hover:text-accent">
+                  <button onClick={() => go(1)} aria-label="Next" className="grid h-10 w-10 place-items-center rounded-sm border border-line transition hover:border-accent hover:text-accent">
                     <ChevronRight size={18} />
                   </button>
                 </div>

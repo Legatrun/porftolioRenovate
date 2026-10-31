@@ -27,7 +27,7 @@ export const metadata = {
   },
 };
 
-export const viewport = { themeColor: "#050507" };
+export const viewport = { themeColor: "#0d0d0d" };
 
 export default function RootLayout({ children }) {
   return (
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
       <body className="grain min-h-screen overflow-x-clip">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded"
         >
           Skip to content
         </a>

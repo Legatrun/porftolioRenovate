@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { createTerminal, drawTerminal } from "./terminalScreen";
+import { useContextRecovery } from "@/lib/webgl";
 
 export const MAC_URL = "/macbook.glb";
 const LID_NODE = "RcexTyyhpuJYATQ_61";
@@ -48,36 +49,47 @@ function useMac(term) {
       hinge.attach(lid);
     }
 
-    // Terminal on the display.
+    // Terminal on the display. `color` doubles as the power-on fade (no canvas redraws needed).
+    const screen = new THREE.MeshBasicMaterial({ map: term.texture, toneMapped: false, color: 0x000000 });
     model.traverse((o) => {
-      if (o.isMesh && o.material?.name === SCREEN_MATERIAL) {
-        o.material = new THREE.MeshBasicMaterial({ map: term.texture, toneMapped: false });
-      }
+      if (o.isMesh && o.material?.name === SCREEN_MATERIAL) o.material = screen;
     });
 
     const wrap = new THREE.Group();
     wrap.add(model);
     wrap.scale.setScalar(SCALE);
-    return { root: wrap, hinge };
+    return { root: wrap, hinge, screen };
   }, [scene, term]);
 }
 
 function Scene({ script, delay, reduce, onReady }) {
   const term = useMemo(() => createTerminal(), []);
-  const { root, hinge } = useMac(term);
+  const { root, hinge, screen } = useMac(term);
   const hingeRef = useRef(null);
   useEffect(() => {
     hingeRef.current = hinge;
   }, [hinge]);
   const group = useRef();
   const glow = useRef();
-  const { clock, size } = useThree();
+  const { clock, size, invalidate } = useThree();
   const st = useRef({ t0: null, key: "" });
+  const introEnd = TYPE_START + script.command.length * CHAR + 0.35 + script.output.length * LINE;
 
   useEffect(() => {
-    drawTerminal(term, script, { typed: 0, lines: 0, cursor: false, power: 0 });
+    drawTerminal(term, script, { typed: 0, lines: 0, cursor: false });
     onReady?.();
   }, [term, script, onReady]);
+
+  // On-demand rendering: after the intro only the mouse and the cursor blink (2 fps) trigger frames.
+  useEffect(() => {
+    const onMove = () => invalidate();
+    window.addEventListener("pointermove", onMove, { passive: true });
+    const blink = setInterval(invalidate, 500);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      clearInterval(blink);
+    };
+  }, [invalidate]);
 
   useFrame((state, dt) => {
     const s = st.current;
@@ -90,14 +102,21 @@ function Scene({ script, delay, reduce, onReady }) {
     const r = easeOut(seg(t, RISE));
     const open = easeInOut(seg(t, OPEN));
     const power = seg(t, POWER);
-    const float = Math.sin(clock.elapsedTime * 0.9) * 0.04 * r;
     g.visible = t > 0;
     g.scale.setScalar(Math.min(1, size.width / size.height / 1.45)); // shrink on portrait screens
-    g.position.y = THREE.MathUtils.lerp(-3.2, -0.75, r) + float;
-    g.rotation.x = THREE.MathUtils.damp(g.rotation.x, 0.18 + (reduce ? 0 : state.pointer.y * -0.08) + (1 - r) * 0.5, 4, dt);
-    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, (reduce ? 0 : state.pointer.x * 0.22) + (1 - r) * -0.6, 4, dt);
+    g.position.y = THREE.MathUtils.lerp(-3.2, -0.75, r);
+    const rx = 0.18 + (reduce ? 0 : state.pointer.y * -0.04) + (1 - r) * 0.25;
+    const ry = (reduce ? 0 : state.pointer.x * 0.1) + (1 - r) * -0.3;
+    const d = Math.min(dt, 0.05);
+    g.rotation.x = THREE.MathUtils.damp(g.rotation.x, rx, 4, d);
+    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, ry, 4, d);
     if (hingeRef.current) hingeRef.current.rotation.x = LID_CLOSED * (1 - open);
-    if (glow.current) glow.current.intensity = power * 1.0;
+    if (glow.current) glow.current.intensity = power;
+    screen.color.setScalar(power);
+
+    // Keep rendering only while something is still moving.
+    const settling = Math.abs(g.rotation.x - rx) + Math.abs(g.rotation.y - ry) > 0.0005;
+    if (t < introEnd || settling) invalidate();
 
     // Terminal state
     const tt = t - TYPE_START;
@@ -105,10 +124,10 @@ function Scene({ script, delay, reduce, onReady }) {
     const typedDone = TYPE_START + script.command.length * CHAR + 0.35;
     const lines = Math.max(0, Math.min(script.output.length, Math.floor((t - typedDone) / LINE) + 1));
     const cursor = Math.floor(clock.elapsedTime * 2) % 2 === 0;
-    const key = `${typed}|${t > typedDone ? lines : 0}|${cursor}|${power.toFixed(2)}`;
+    const key = `${typed}|${t > typedDone ? lines : 0}|${cursor}`;
     if (key !== s.key) {
       s.key = key;
-      drawTerminal(term, script, { typed, lines: t > typedDone ? lines : 0, cursor, power });
+      drawTerminal(term, script, { typed, lines: t > typedDone ? lines : 0, cursor });
     }
   });
 
@@ -118,26 +137,31 @@ function Scene({ script, delay, reduce, onReady }) {
       <directionalLight position={[3, 6, 5]} intensity={1.4} />
       <Environment resolution={256}>
         <Lightformer form="rect" intensity={2.5} position={[0, 5, 3]} scale={[10, 2, 1]} />
-        <Lightformer form="rect" intensity={1.5} color="#8b7bff" position={[-6, 1, 1]} rotation-y={Math.PI / 2} scale={[8, 3, 1]} />
-        <Lightformer form="rect" intensity={1.5} color="#22d3ee" position={[6, 1, 1]} rotation-y={-Math.PI / 2} scale={[8, 3, 1]} />
+        <Lightformer form="rect" intensity={1.5} color="#d4ff3f" position={[-6, 1, 1]} rotation-y={Math.PI / 2} scale={[8, 3, 1]} />
+        <Lightformer form="rect" intensity={1.5} color="#f2f2f2" position={[6, 1, 1]} rotation-y={-Math.PI / 2} scale={[8, 3, 1]} />
       </Environment>
       <group ref={group} visible={false}>
         <primitive object={root} />
         {/* green spill from the screen onto the keyboard */}
-        <pointLight ref={glow} position={[0, 1.1, 0.15]} color="#39ff14" intensity={0} distance={2.6} decay={2} />
+        <pointLight ref={glow} position={[0, 1.1, 0.15]} color="#d4ff3f" intensity={0} distance={2.6} decay={2} />
       </group>
     </>
   );
 }
 
-export default function MacScene3D({ script, delay = 0.8, reduce = false, running = true, onReady }) {
+export default function MacScene3D({ script, delay = 0.8, reduce = false, running = true, onReady, onFail }) {
+  const { key, onCreated } = useContextRecovery(onFail);
   return (
     <Canvas
-      frameloop={running ? "always" : "never"}
-      dpr={[1, 1.75]}
+      key={key}
+      frameloop={running ? "demand" : "never"}
+      dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0.9, 6.2], fov: 32 }}
-      onCreated={({ camera }) => camera.lookAt(0, 0.05, 0)}
+      onCreated={(state) => {
+        state.camera.lookAt(0, 0.05, 0);
+        onCreated(state);
+      }}
       style={{ position: "absolute", inset: 0 }}
     >
       <Suspense fallback={null}>

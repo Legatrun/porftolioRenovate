@@ -19,7 +19,7 @@ export default function Contact() {
 
   return (
     <section id="contact" data-theme-section="default" className={cn(SCREEN, "overflow-hidden pb-0")}>
-      <div aria-hidden className="glow-orb absolute left-1/2 top-full -ml-[35vmax] -mt-[35vmax] h-[70vmax] w-[70vmax] opacity-50" />
+      <div aria-hidden className="glow-orb absolute left-1/2 top-full -ml-[35vmax] -mt-[35vmax] h-[70vmax] w-[70vmax] opacity-15" />
       <div className="relative mx-auto my-auto w-full max-w-7xl px-5 md:px-8">
         <Reveal className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted">
           <span className="text-accent-ink">06</span>
@@ -36,7 +36,7 @@ export default function Contact() {
           <Magnetic>
             <a
               href={`mailto:${profile.email}`}
-              className="group inline-flex items-center gap-2 btn-accent rounded-full px-7 py-4 font-semibold"
+              className="group inline-flex items-center gap-2 btn-accent rounded-sm px-7 py-4 font-semibold"
             >
               {profile.email}
               <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -44,7 +44,7 @@ export default function Contact() {
           </Magnetic>
           <button
             onClick={copy}
-            className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-4 text-sm text-muted transition hover:border-white hover:text-white"
+            className="inline-flex items-center gap-2 rounded-sm border border-line px-5 py-4 text-sm text-muted transition hover:border-white hover:text-white"
           >
             {copied ? <Check size={16} /> : <Copy size={16} />} {copied ? "Copied" : "Copy email"}
           </button>

@@ -86,7 +86,7 @@ export default function MusicToggle() {
         onClick={toggle}
         aria-pressed={playing}
         aria-label={playing ? "Mute background music" : "Play background music"}
-        className="group inline-flex h-10 items-center gap-2 rounded-full border border-line bg-white/[0.04] px-3 text-sm transition hover:border-accent hover:text-accent-ink"
+        className="group inline-flex h-10 items-center gap-2 rounded-sm border border-line bg-white/[0.04] px-3 text-sm transition hover:border-accent hover:text-accent-ink"
       >
         {playing ? <Volume2 size={16} /> : <VolumeX size={16} />}
         <span aria-hidden className="flex h-3.5 items-end gap-[2px]">

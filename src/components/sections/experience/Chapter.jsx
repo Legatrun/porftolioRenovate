@@ -7,6 +7,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { DeltaXVisual, TremVisual, AlphaVisual } from "./Visuals";
 import { YapeVisual } from "./Visuals";
 import YapeChapter from "./YapeChapter";
+import DeltaXChapter from "./deltax/DeltaXChapter";
+import TremChapter from "./trem/TremChapter";
+import AlphaChapter from "./alpha/AlphaChapter";
 
 const styles = {
   yape: {
@@ -41,6 +44,9 @@ const styles = {
 
 export default function Chapter({ job, index }) {
   if (job.id === "yape") return <YapeChapter job={job} index={index} />;
+  if (job.id === "deltax") return <DeltaXChapter job={job} index={index} />;
+  if (job.id === "trem") return <TremChapter job={job} index={index} />;
+  if (job.id === "alpha") return <AlphaChapter job={job} index={index} />;
   return <StandardChapter job={job} index={index} />;
 }
 

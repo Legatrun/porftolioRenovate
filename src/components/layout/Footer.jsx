@@ -31,7 +31,7 @@ export default function Footer() {
               aria-label={label}
               target={href.startsWith("http") ? "_blank" : undefined}
               rel="noopener noreferrer"
-              className="grid h-10 w-10 place-items-center rounded-full border border-line text-muted transition hover:border-accent hover:text-accent-ink"
+              className="grid h-10 w-10 place-items-center rounded-sm border border-line text-muted transition hover:border-accent hover:text-accent-ink"
             >
               <Icon size={17} />
             </a>
