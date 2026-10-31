@@ -1,13 +1,13 @@
 import "./globals.css";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Navbar from "@/components/layout/Navbar";
 import ScrollTheme from "@/components/ScrollTheme";
 import SnapScroller from "@/components/SnapScroller";
 import MotionProvider from "@/components/MotionProvider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", weight: ["500", "700"], display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", weight: ["400", "500"], display: "swap" });
+const inter = localFont({ src: "./fonts/Inter.woff2", variable: "--font-inter", weight: "100 900", display: "swap" });
+const grotesk = localFont({ src: "./fonts/SpaceGrotesk.woff2", variable: "--font-grotesk", weight: "300 700", display: "swap" });
+const mono = localFont({ src: "./fonts/JetBrainsMono.woff2", variable: "--font-jetbrains", weight: "100 800", display: "swap" });
 
 const description =
   "Full Stack Developer with 6+ years building scalable, high-performance web apps with React, Next.js, Node.js, .NET and AWS. Currently Developer - Operations at Yape.";
